@@ -31,6 +31,66 @@ const router = Router();
  *     responses:
  *       201:
  *         description: Category created
+ *
+ * /categories/{id}:
+ *   get:
+ *     summary: Get category by id
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Category detail
+ *       400:
+ *         description: Invalid id
+ *       404:
+ *         description: Category not found
+ *   put:
+ *     summary: Update category by id
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [name]
+ *             properties:
+ *               name:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Category updated
+ *       400:
+ *         description: Invalid input
+ *       404:
+ *         description: Category not found
+ *   delete:
+ *     summary: Delete category by id
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Category deleted
+ *       400:
+ *         description: Invalid id
+ *       404:
+ *         description: Category not found
  */
 router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
