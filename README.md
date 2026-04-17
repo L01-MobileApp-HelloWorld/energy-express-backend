@@ -40,3 +40,12 @@ Swagger UI: `http://localhost:3000/docs`
   "categoryId": 1
 }
 ```
+
+## Lint & Format
+
+```bash
+npm run lint
+npm run lint:fix
+npm run format:check
+npm run format
+```
