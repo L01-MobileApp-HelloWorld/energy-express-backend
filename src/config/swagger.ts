@@ -8,5 +8,5 @@ export const swaggerOptions: Options = {
       version: '1.0.0'
     }
   },
-  apis: ['./src/routes/*.ts']
+  apis: ['./src/routes/*.ts', './src/routes/*.js']
 };
