@@ -2,13 +2,13 @@
   "name": "energy-express-backend",
   "version": "1.0.0",
   "description": "Express + TypeScript + Prisma backend",
-  "main": "dist/server.js",
+  "main": "dist/index.js",
   "type": "commonjs",
   "engines": {
     "node": ">=20.19.0"
   },
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc -p tsconfig.json && prisma generate",
     "start": "node dist/index.js",
     "prisma:generate": "prisma generate",
