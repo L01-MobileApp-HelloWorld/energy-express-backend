@@ -67,4 +67,93 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
+router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+      res.status(400).json({ message: 'id không hợp lệ.' });
+      return;
+    }
+
+    const category = await prisma.category.findUnique({
+      where: { id },
+      include: { questions: true }
+    });
+
+    if (!category) {
+      res.status(404).json({ message: 'Không tìm thấy category.' });
+      return;
+    }
+
+    res.json(category);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = Number(req.params.id);
+    const { name } = req.body as { name?: string };
+
+    if (Number.isNaN(id)) {
+      res.status(400).json({ message: 'id không hợp lệ.' });
+      return;
+    }
+
+    if (!name) {
+      res.status(400).json({ message: 'name là bắt buộc.' });
+      return;
+    }
+
+    const existingCategory = await prisma.category.findUnique({
+      where: { id }
+    });
+
+    if (!existingCategory) {
+      res.status(404).json({ message: 'Không tìm thấy category.' });
+      return;
+    }
+
+    const category = await prisma.category.update({
+      where: { id },
+      data: { name },
+      include: { questions: true }
+    });
+
+    res.json(category);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+      res.status(400).json({ message: 'id không hợp lệ.' });
+      return;
+    }
+
+    const existingCategory = await prisma.category.findUnique({
+      where: { id }
+    });
+
+    if (!existingCategory) {
+      res.status(404).json({ message: 'Không tìm thấy category.' });
+      return;
+    }
+
+    await prisma.category.delete({
+      where: { id }
+    });
+
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

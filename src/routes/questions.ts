@@ -88,4 +88,108 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
+router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+      res.status(400).json({ message: 'id không hợp lệ.' });
+      return;
+    }
+
+    const question = await prisma.question.findUnique({
+      where: { id },
+      include: { answer: true, category: true }
+    });
+
+    if (!question) {
+      res.status(404).json({ message: 'Không tìm thấy question.' });
+      return;
+    }
+
+    res.json(question);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = Number(req.params.id);
+    const { name, description, answerId, categoryId } = req.body as {
+      name?: string;
+      description?: string;
+      answerId?: number;
+      categoryId?: number;
+    };
+
+    if (Number.isNaN(id)) {
+      res.status(400).json({ message: 'id không hợp lệ.' });
+      return;
+    }
+
+    if (!name || typeof answerId !== 'number' || typeof categoryId !== 'number') {
+      res.status(400).json({
+        message: 'name, answerId và categoryId là bắt buộc.'
+      });
+      return;
+    }
+
+    const existingQuestion = await prisma.question.findUnique({
+      where: { id }
+    });
+
+    if (!existingQuestion) {
+      res.status(404).json({ message: 'Không tìm thấy question.' });
+      return;
+    }
+
+    const question = await prisma.question.update({
+      where: { id },
+      data: {
+        name,
+        description,
+        answerId,
+        categoryId
+      },
+      include: {
+        answer: true,
+        category: true
+      }
+    });
+
+    res.json(question);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = Number(req.params.id);
+
+    if (Number.isNaN(id)) {
+      res.status(400).json({ message: 'id không hợp lệ.' });
+      return;
+    }
+
+    const existingQuestion = await prisma.question.findUnique({
+      where: { id }
+    });
+
+    if (!existingQuestion) {
+      res.status(404).json({ message: 'Không tìm thấy question.' });
+      return;
+    }
+
+    await prisma.question.delete({
+      where: { id }
+    });
+
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;
