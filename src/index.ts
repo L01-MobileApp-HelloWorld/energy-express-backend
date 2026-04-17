@@ -13,6 +13,11 @@ const PORT = Number(process.env.PORT ?? 3000);
 app.use(express.json());
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+// Ensure a trailing slash so Swagger UI static assets resolve as /docs/* in all environments.
+app.get(/^\/docs$/, (_req: Request, res: Response) => {
+  res.redirect(301, '/docs/');
+});
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('/health', (_req: Request, res: Response) => {
@@ -23,7 +28,8 @@ app.use('/questions', questionsRouter);
 app.use('/answers', answersRouter);
 app.use('/categories', categoriesRouter);
 
-app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+app.use((err: unknown, _req: Request, res: Response, next: NextFunction) => {
+  void next;
   console.error(err);
   res.status(500).json({ message: 'Internal Server Error' });
 });
