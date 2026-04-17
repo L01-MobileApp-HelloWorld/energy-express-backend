@@ -43,7 +43,11 @@ app.use((err: unknown, _req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ message: 'Internal Server Error' });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`Swagger docs on http://localhost:${PORT}/docs`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Swagger docs on http://localhost:${PORT}/docs`);
+  });
+}
+
+export default app;
