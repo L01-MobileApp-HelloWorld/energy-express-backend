@@ -26,7 +26,8 @@ app.use('/docs', (_req: Request, res: Response, next: NextFunction) => {
 app.get(/^\/docs$/, (_req: Request, res: Response) => {
   res.redirect(301, '/docs/');
 });
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/docs', swaggerUi.serve);
+app.get('/docs/', swaggerUi.setup(swaggerSpec));
 
 app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok' });
