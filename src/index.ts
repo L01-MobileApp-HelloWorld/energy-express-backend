@@ -14,6 +14,14 @@ app.use(express.json());
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
+app.use('/docs', (_req: Request, res: Response, next: NextFunction) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self';"
+  );
+  next();
+});
+
 // Ensure a trailing slash so Swagger UI static assets resolve as /docs/* in all environments.
 app.get(/^\/docs$/, (_req: Request, res: Response) => {
   res.redirect(301, '/docs/');
