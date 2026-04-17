@@ -31,6 +31,66 @@ const router = Router();
  *     responses:
  *       201:
  *         description: Answer created
+ *
+ * /answers/{id}:
+ *   get:
+ *     summary: Get answer by id
+ *     tags: [Answers]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Answer detail
+ *       400:
+ *         description: Invalid id
+ *       404:
+ *         description: Answer not found
+ *   put:
+ *     summary: Update answer by id
+ *     tags: [Answers]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [content]
+ *             properties:
+ *               content:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Answer updated
+ *       400:
+ *         description: Invalid input
+ *       404:
+ *         description: Answer not found
+ *   delete:
+ *     summary: Delete answer by id
+ *     tags: [Answers]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Answer deleted
+ *       400:
+ *         description: Invalid id
+ *       404:
+ *         description: Answer not found
  */
 router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
