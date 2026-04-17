@@ -5,7 +5,11 @@
       "src": "src/index.ts",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["node_modules/swagger-ui-dist/**"]
+        "includeFiles": [
+          "node_modules/swagger-ui-dist/**",
+          "node_modules/.prisma/client/**",
+          "node_modules/@prisma/engines/**"
+        ]
       }
     }
   ],
