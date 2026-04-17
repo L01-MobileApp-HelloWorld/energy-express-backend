@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { prisma } from '../lib/prisma';
 
 const router = Router();
@@ -38,7 +38,7 @@ const router = Router();
  *       201:
  *         description: Question created
  */
-router.get('/', async (_req, res, next) => {
+router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const questions = await prisma.question.findMany({
       include: {
@@ -53,7 +53,7 @@ router.get('/', async (_req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, description, answerId, categoryId } = req.body as {
       name?: string;

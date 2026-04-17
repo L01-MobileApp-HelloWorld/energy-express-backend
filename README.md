@@ -25,6 +25,10 @@ Swagger UI: `http://localhost:3000/docs`
 - `GET /health`
 - `GET /questions`
 - `POST /questions`
+- `GET /answers`
+- `POST /answers`
+- `GET /categories`
+- `POST /categories`
 
 ### Payload tạo question
 
